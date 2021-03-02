@@ -15,10 +15,10 @@ var cartoData = L.layerGroup().addTo(map);
   //how to 'read' from carto user site with CARTO SQL API
 var url = 'https://heathwa1.carto.com/api/v2/sql';
 var urlGeoJSON = url + '?format=GeoJSON&q=';
-var sqlQuery = 'SELECT the_geom, description, name FROM lab_3b_heather';
+var sqlQuery = 'SELECT the_geom, wish, specific_type FROM lab_3b_template';
 function addPopup(feature, layer) {
     layer.bindPopup(
-        "<b>" + feature.properties.name + "</b><br>" + feature.properties.description
+        "<b>" + feature.properties.wish + "</b><br>" + feature.properties.specific
     );
 }
   //get data from carto return in geojson format;
@@ -128,10 +128,10 @@ function setData(e) {
             reason_value = reason[i].value;
           }
       }
+console.log(reason_value)
 
-
-      var specificWish = document.getElementById("input_specific").value;
-      var wishList = document.getElementById("wish_value").value;
+      var specificWish = document.getElementById("specific").value;
+      var wishList = document.getElementsByName("wish_value").value;
 console.log(wish_value)
   //send drawn layers data to carto database;
 
@@ -143,8 +143,8 @@ console.log(wish_value)
                 "INSERT INTO lab_3b_template (the_geom,wish, specific_type) " +
                 "VALUES (ST_SetSRID(ST_GeomFromGeoJSON('" +
                 drawing + "'), 4326), '" +
-                enteredLocName + "', '" +
-                enteredDescription + "')";
+                wish_value + "', '" +
+                specificWish + "')";
             console.log(sql);
 
       //send data to carto with CARTO SQL API
@@ -169,8 +169,8 @@ console.log(wish_value)
       //so it stays on map without needing to refresh page
 
         var newData = layer.toGeoJSON();
-        newData.properties.description = enteredDescription;
-        newData.properties.name = enteredLocName;
+        newData.properties.wish = wishList;
+        newData.properties.specific = specificWish;
         L.geoJSON(newData, {onEachFeature: addPopup}).addTo(cartoData);
       });
       //clear layers
