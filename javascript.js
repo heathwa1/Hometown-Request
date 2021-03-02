@@ -77,16 +77,12 @@ function createFormPopup() {
           '<label for="far">Others too far</label>'+
           '<input type="radio" id="original" name="reason" value="original">'+
           '<label for="original">Have not seen it</label><br>'+
-          '<input type="radio" id="variety" name="reason">'+
+          '<input type="radio" id="variety" name="reason" value="variety">'+
           '<label for="variety">Need some variety</label>'+
           '<input type="radio" id="price" name="reason" value="price">'+
           '<label for="price">Cost of current options</label><br>'+
       '</li>'+
       '<input type="button" value="Submit" id="submit">'
-
-
-
-
 
     	'</form>'
 
@@ -115,24 +111,24 @@ function setData(e) {
     if(e.target && e.target.id == 'submit') {
       //get name and description from popup form
       var wish = document.getElementsByName('wish');
-      var wish_value;
+      var wishValue;
       for (var i = 0; i < wish.length; i++) {
           if(wish[i].checked){
-            wish_value = wish[i].value;
+            wishValue = wish[i].value;
           }
       }
       var reason = document.getElementsByName('reason');
-      var reason_value;
+      var reasonValue;
       for (var i = 0; i < reason.length; i++) {
           if(reason[i].checked){
-            reason_value = reason[i].value;
+            reasonValue = reason[i].value;
           }
       }
-console.log(reason_value)
+console.log(reasonValue)
 
       var specificWish = document.getElementById("specific").value;
-      var wishList = document.getElementsByName("wish_value").value;
-console.log(wish_value)
+      var wishList = document.getElementsByName("wishValue").value;
+console.log(wishValue)
   //send drawn layers data to carto database;
 
       //for each drawn layer on the site map
@@ -143,7 +139,7 @@ console.log(wish_value)
                 "INSERT INTO lab_3b_template (the_geom,wish, specific_type) " +
                 "VALUES (ST_SetSRID(ST_GeomFromGeoJSON('" +
                 drawing + "'), 4326), '" +
-                wish_value + "', '" +
+                wishValue + "', '" +
                 specificWish + "')";
             console.log(sql);
 
@@ -169,7 +165,7 @@ console.log(wish_value)
       //so it stays on map without needing to refresh page
 
         var newData = layer.toGeoJSON();
-        newData.properties.wish = wishList;
+        newData.properties.wishValue[i] = wishList;
         newData.properties.specific = specificWish;
         L.geoJSON(newData, {onEachFeature: addPopup}).addTo(cartoData);
       });
