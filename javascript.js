@@ -13,9 +13,9 @@ var drawnItems = L.featureGroup().addTo(map);
 var cartoData = L.layerGroup().addTo(map);
   //create path to add data from carto to map;
   //how to 'read' from carto user site with CARTO SQL API
-var url = 'https://heathwa1.carto.com/api/v2/sql';
+var url = "https://heathwa1.carto.com/api/v2/sql";
 var urlGeoJSON = url + '?format=GeoJSON&q=';
-var sqlQuery = 'SELECT the_geom, wish, specific_type FROM lab_3b_template';
+var sqlQuery = 'SELECT the_geom, wish, specific_type, reason FROM lab_3b_template';
 function addPopup(feature, layer) {
     layer.bindPopup(
         "<b>" + feature.properties.wish + "</b><br>" + feature.properties.specific
@@ -67,8 +67,8 @@ function createFormPopup() {
     			'<label for="other">Other</label><br>'+
       '</li>'+
       '<li>'+
-    		'<b>Specifically I would like to see...</b>'+
-    			'<label for="specific"> (food type, grocery, clothing, walking trails,etc.)</label>'+
+    		'<b>Specifically I would like to see...</b><br>'+
+    			'<label for="specific"> (food type, grocery, clothing, walking trails,etc.)</label><br>'+
     			'<input type="text" id="specific"><br>'+
       '</li>'+
       '<li>'+
@@ -110,37 +110,48 @@ map.addEventListener("draw:created", function(e) {
 function setData(e) {
     if(e.target && e.target.id == 'submit') {
       //get name and description from popup form
-      var wish = document.getElementsByName('wish');
-      var wishValue;
+    var wish = document.getElementsByName('wish');
+      var wishList;
       for (var i = 0; i < wish.length; i++) {
           if(wish[i].checked){
-            wishValue = wish[i].value;
+            wishList = wish[i].value;
           }
       }
+      //var wishList = document.querySelector("form")
+console.log(wishList)
+
       var reason = document.getElementsByName('reason');
-      var reasonValue;
+      var whyNeed;
       for (var i = 0; i < reason.length; i++) {
           if(reason[i].checked){
-            reasonValue = reason[i].value;
+            whyNeed = reason[i].value;
           }
       }
-console.log(reasonValue)
+console.log(whyNeed)
 
       var specificWish = document.getElementById("specific").value;
-      var wishList = document.getElementsByName("wishValue").value;
-console.log(wishValue)
+      //var wishList = document.getElementsByName("wish").checked==True;
+     //var whyNeed = document.querySelector("reason");
+
   //send drawn layers data to carto database;
+// var form = document.querySelector("form");
+// var wishItem = document.querySelector("#wish")
+// var whyNeed = document.querySelector("#reason")
+
 
       //for each drawn layer on the site map
     drawnItems.eachLayer(function(layer) {
       //create SQL expression to insert layer;
       var drawing = JSON.stringify(layer.toGeoJSON().geometry);
             var sql =
-                "INSERT INTO lab_3b_template (the_geom,wish, specific_type) " +
+                "INSERT INTO lab_3b_template (the_geom,wish, specific_type, reason) " +
                 "VALUES (ST_SetSRID(ST_GeomFromGeoJSON('" +
                 drawing + "'), 4326), '" +
-                wishValue + "', '" +
-                specificWish + "')";
+                wishList + "', '" +
+                //tried using 'wishList' kept calling it an array
+                specificWish + "', '" +
+                //tried using 'whyNeed' kept calling it an array
+                whyNeed + "')";
             console.log(sql);
 
       //send data to carto with CARTO SQL API
@@ -165,8 +176,9 @@ console.log(wishValue)
       //so it stays on map without needing to refresh page
 
         var newData = layer.toGeoJSON();
-        newData.properties.wishValue[i] = wishList;
-        newData.properties.specific = specificWish;
+        newData.properties.wish = wishList;
+        newData.properties.specific = specific;
+        newData.properties.reason = whyNeed;
         L.geoJSON(newData, {onEachFeature: addPopup}).addTo(cartoData);
       });
       //clear layers
