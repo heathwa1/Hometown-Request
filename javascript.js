@@ -15,7 +15,7 @@ var cartoData = L.layerGroup().addTo(map);
   //how to 'read' from carto user site with CARTO SQL API
 var url = "https://heathwa1.carto.com/api/v2/sql";
 var urlGeoJSON = url + '?format=GeoJSON&q=';
-var sqlQuery = 'SELECT the_geom, wish, specific_type, reason FROM lab_3b_template';
+var sqlQuery = 'SELECT the_geom, wish, specific_type, reason FROM lab_3b_warren';
 function addPopup(feature, layer) {
     layer.bindPopup(
         "<b>" + feature.properties.wish + "</b><br>" + feature.properties.specific
@@ -144,7 +144,7 @@ console.log(whyNeed)
       //create SQL expression to insert layer;
       var drawing = JSON.stringify(layer.toGeoJSON().geometry);
             var sql =
-                "INSERT INTO lab_3b_template (the_geom,wish, specific_type, reason) " +
+                "INSERT INTO lab_3b_warren (the_geom, wish, specific_type, reason) " +
                 "VALUES (ST_SetSRID(ST_GeomFromGeoJSON('" +
                 drawing + "'), 4326), '" +
                 wishList + "', '" +
@@ -158,7 +158,7 @@ console.log(whyNeed)
           fetch(url, {
               method: "POST",
               headers: {
-                  "Content_Type": "application/x-www-form-urlencoded"
+                  "Content-Type": "application/x-www-form-urlencoded"
               },
               body: "q=" + encodeURI(sql)
           })
@@ -177,7 +177,7 @@ console.log(whyNeed)
 
         var newData = layer.toGeoJSON();
         newData.properties.wish = wishList;
-        newData.properties.specific = specific;
+        newData.properties.specific = specificWish;
         newData.properties.reason = whyNeed;
         L.geoJSON(newData, {onEachFeature: addPopup}).addTo(cartoData);
       });
