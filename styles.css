@@ -16,11 +16,19 @@ button {
   color: #f0f8ff;
   background-color:rgba(102,51,153,0.9);
   border: 1px 1px solid black;
-  z-index: 1002;
+  z-index: 500;
   position:absolute;
   top: 250px;
   left: 15px;
   height: 25px;
+}
+#submit {
+  margin-top: 1rem;
+  background-color: LightCyan;
+  width:100px;
+  border:1px solid black;
+  border-radius: 20px;
+
 }
 .modal {
   display: none;
@@ -51,4 +59,37 @@ button {
   color: #000;
   text-decoration: none;
   cursor: pointer;
+}
+label > input[type='radio'] {
+    display: none;
+}
+label > input[type='radio'] + *::before {
+    content:'';
+    display: inline-block;
+    vertical-align: bottom;
+    width: 0.75rem;
+    height: 0.75rem;
+    margin-right: 0.25rem;
+    margin-left: 0.5rem;
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 0.07rem;
+    border-color: gray;
+}
+label > input[type='radio']:checked + *::before {
+    background: radial-gradient(IndianRed 0%, IndianRed 40%, transparent 50%, transparent);
+    border-color: IndianRed;
+}
+label > input[type='radio']:checked + * {
+    color: IndianRed;
+}
+textarea {
+  overflow: scroll;
+
+}
+input[type=text] {
+  padding: 3px;
+  margin:.5rem;
+  
+  border: 1px solid black
 }

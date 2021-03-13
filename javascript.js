@@ -52,19 +52,30 @@ function createFormPopup() {
     '<form>'+
       '<li>'+
     		'<b>I wish there was ________ here.</b><br>' +
-
+          '<label>'+
     			'<input type="radio"  id="retail" name="wish" value="retail">'+
-    			'<label for="retail">Retail</label>'+
+    			'<span>Retail</span>'+
+          '</label>'+
+          '<label>'+
     			'<input type="radio" id="food" name="wish" value="food">'+
-    			'<label for="food">Food</label>'+
+    			'<span>Food</span>'+
+          '</label>'+
+          '<label>'+
     			'<input type="radio" id="school" name="wish" value="school">'+
-    			'<label for="school">School</label><br>'+
+    			'<span>School</span><br>'+
+          '</label>'+
+          '<label>'+
     			'<input type="radio" id="park" name="wish" value="park">'+
-    			'<label for="park">Park</label>'+
+    			'<span>Park</span>'+
+          '</label>'+
+          '<label>'+
     			'<input type="radio" id="housing" name="wish" value="housing">'+
-    			'<label for="housing">Housing</label>'+
+    			'<span>Housing</span>'+
+          '</label>'+
+          '<label>'+
     			'<input type="radio" id="other" name="wish" value="other">'+
-    			'<label for="other">Other</label><br>'+
+    			'<span>Other</span><br>'+
+          '</label>'+
       '</li>'+
       '<li>'+
     		'<b>Specifically I would like to see...</b><br>'+
@@ -73,14 +84,22 @@ function createFormPopup() {
       '</li>'+
       '<li>'+
           '<b>This area needs this because</b><br>'+
+          '<label>'+
           '<input type= "radio" id="far" name="reason" value="far">'+
-          '<label for="far">Others too far</label>'+
+          '<span>Others too far</span>'+
+          '</label>'+
+          '<label>'+
           '<input type="radio" id="original" name="reason" value="original">'+
-          '<label for="original">Have not seen it</label><br>'+
+          '<span>Have not seen it</span><br>'+
+          '</label>'+
+          '<label>'+
           '<input type="radio" id="variety" name="reason" value="variety">'+
-          '<label for="variety">Need some variety</label>'+
+          '<span>Need some variety</span>'+
+          '</label>'+
+          '<label>'+
           '<input type="radio" id="price" name="reason" value="price">'+
-          '<label for="price">Cost of current options</label><br>'+
+          '<span>Cost of current options</span><br>'+
+          '</label>'+
       '</li>'+
       '<input type="button" value="Submit" id="submit">'
 
